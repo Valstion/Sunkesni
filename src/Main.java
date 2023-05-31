@@ -1,7 +1,6 @@
-import java.util.Random;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,7 +31,12 @@ public class Main {
         }
         System.out.println("Pirminių skaičių kiekis: " + pirminiai);
         System.out.println("_________________6_______________________________");
+        List<List<Integer>> result = generateArrays();
+        System.out.println(result);
         System.out.println("_________________7_______________________________");
+        List<List<Integer>> arrays = generateArrays1();
+        int sum = calculateSum(result);
+        System.out.println(sum);
         System.out.println("_________________8_______________________________");
         List<Integer> masyvas3 = new ArrayList<>();
         Random random3 = new Random();
@@ -58,16 +62,12 @@ public class Main {
         }
         System.out.println(masyvas3);
         System.out.println("_________________9 _____________________________");
-        int[][] array = generateArray(10, 10);
-        printArray(array);
-
-        while (calculatePrimeAverage(array) < 70) {
-            int minNumber = findMinimumNumber(array);
+        int[][] array = generateRandomArray23(10);
+        while (calculatePrimeAverage23(array) < 70) {
+            int minNumber = findMinimum(array);
             array[minNumber / 10][minNumber % 10] += 3;
         }
-
-        System.out.println("\nAverages:");
-        printArray(array);
+        System.out.println("Pirminių skaičių vidurkis >= 70");
         System.out.println("_____________________________________________");
     }
 
@@ -109,7 +109,7 @@ public class Main {
 
     public static int skaiciuotiDalijasiBeLiekanos(int skaicius) {
         int dalijasiBeLiekanos = 0;
-        for (int i = 2; i < skaicius / 2 ; i++) { // optimizacija. nes pvz jei skaicius 100, šimtą dalinant iš 75 visada bus liekana. šita optimizacija duoda kad ciklas suka 2x mažiau kartu. bet gerai kodas.
+        for (int i = 2; i < skaicius / 2; i++) { // optimizacija. nes pvz jei skaicius 100, šimtą dalinant iš 75 visada bus liekana. šita optimizacija duoda kad ciklas suka 2x mažiau kartu. bet gerai kodas.
             if (skaicius % i == 0) {
                 dalijasiBeLiekanos++;
             }
@@ -117,34 +117,8 @@ public class Main {
         return dalijasiBeLiekanos;
     }
 
-    public static int[] generuotiAtsitiktiniusSkaicius(int kiekis, int min, int max) {
-        int[] skaiciai = new int[kiekis];
-        Random random = new Random();
-        for (int i = 0; i < kiekis; i++) {
-            skaiciai[i] = random.nextInt(max - min + 1) + min; // Sugeneruojami atsitiktiniai skaičiai nuo min iki max
-        }
-        return skaiciai;
-    }
 
-   /* public static void rikiuotiPagalDalijasiBeLiekanosKieki(int[] skaiciai) {
-        Arrays.sort((int) skaiciai, (a, b) -> {
-            int dalikliaiA = skaiciuotiDalijasiBeLiekanos1((int)a);
-            int dalikliaiB = skaiciuotiDalijasiBeLiekanos1((int)b);
 
-            return dalikliaiB - dalikliaiA; // Mažėjimo tvarka
-        });
-    }
-
-    public static int skaiciuotiDalijasiBeLiekanos1(int skaicius) {
-        int dalijasiBeLiekanos1 = 0;
-
-        for (int i = 2; i < skaicius; i++) {
-            if (skaicius % i == 0) {
-                dalijasiBeLiekanos1++;
-            }
-        }
-        return dalijasiBeLiekanos1;
-    } */
 
     public static boolean arPirminis(int sk) {
         if (sk < 2) {
@@ -158,8 +132,6 @@ public class Main {
         return true;
     }
 
-
-
     public static int[][] generateArray(int rows, int cols) {
         int[][] array = new int[rows][cols];
         Random random = new Random();
@@ -169,17 +141,10 @@ public class Main {
                 array[i][j] = random.nextInt(100) + 1;
             }
         }
-
         return array;
     }
-    public static void printArray(int[][] array) {
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[i].length; j++) {
-                System.out.print(array[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
+
+
 
     public static double calculatePrimeAverage(int[][] array) {
         int count = 0;
@@ -193,7 +158,6 @@ public class Main {
                 }
             }
         }
-
         return (double) sum / count;
     }
 
@@ -201,9 +165,115 @@ public class Main {
         if (number < 2) {
             return false;
         }
-
         for (int i = 2; i <= Math.sqrt(number); i++) {
             if (number % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
+    public static List<List<Integer>> generateArrays() {
+        Random random = new Random();
+        int numIterations = random.nextInt(21) + 10;
+        List<List<Integer>> arrays = new ArrayList<>();
+        for (int i = 0; i < numIterations; i++) {
+            List<Integer> array = generateArray(random);
+            arrays.add(array);
+        }
+        return arrays;
+    }
+
+    public static List<Integer> generateArray(Random random) {
+        int length = random.nextInt(11) + 10;
+        List<Integer> array = new ArrayList<>();
+        for (int i = 0; i < length - 1; i++) {
+            array.add(random.nextInt(11));
+        }
+        array.add(generateLastElement(random));
+        return array;
+    }
+
+    public static int generateLastElement(Random random) {
+        if (random.nextInt(2) == 0) {
+            return 0;
+        } else {
+            List<Integer> lastArray = generateArray(random);
+            return lastArray.get(lastArray.size() - 1);
+        }
+    }
+
+
+    //-----------------------------------------------------------------------------------------------------
+    public static List<List<Integer>> generateArrays1() {
+        Random random = new Random();
+        int numIterations = random.nextInt(21) + 10;
+        List<List<Integer>> arrays = new ArrayList<>();
+
+        for (int i = 0; i < numIterations; i++) {
+            List<Integer> array = generateArray(random);
+            arrays.add(array);
+        }
+
+        return arrays;
+    }
+
+    public static List<Integer> generateArray1(Random random) {
+        int length = random.nextInt(11) + 10;
+        List<Integer> array = new ArrayList<>();
+
+        for (int i = 0; i < length - 1; i++) {
+            array.add(random.nextInt(11));
+        }
+
+        array.add(generateLastElement1(random));
+        return array;
+    }
+
+    public static int generateLastElement1(Random random) {
+        if (random.nextInt(2) == 0) {
+            return 0;
+        } else {
+            List<Integer> lastArray = generateArray1(random);
+            return lastArray.get(lastArray.size() - 1);
+        }
+    }
+
+    public static int calculateSum(List<List<Integer>> arrays) {
+        int sum = 0;
+
+        for (List<Integer> arr:arrays   ){
+            for (Integer element : arr) {
+                sum += element;
+            }
+        }
+        return sum;
+    }
+
+
+    //-----------------------------------------------------------------------------------------------------
+    public static int[][] generateRandomArray23(int size) {
+        int[][] array = new int[size][size];
+        Random random = new Random();
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                array[i][j] = random.nextInt(100) + 1;
+            }
+        }
+
+        return array;
+    }
+
+    public static boolean isPrime23(int n) {
+        if (n < 2) {
+            return false;
+        }
+
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i == 0) {
                 return false;
             }
         }
@@ -211,18 +281,35 @@ public class Main {
         return true;
     }
 
-    public static int findMinimumNumber(int[][] array) {
-        int minNumber = Integer.MAX_VALUE;
+    public static double calculatePrimeAverage23(int[][] array) {
+        int sum = 0;
+        int count = 0;
 
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
-                if (array[i][j] < minNumber) {
-                    minNumber = array[i][j];
+                if (isPrime23(array[i][j])) {
+                    sum += array[i][j];
+                    count++;
                 }
             }
         }
 
-        return minNumber;
+        return (double) sum / count;
     }
 
-}
+    public static int findMinimum(int[][] array) {
+        int min = Integer.MAX_VALUE;
+        int minIndex = -1;
+
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                if (array[i][j] < min) {
+                    min = array[i][j];
+                    minIndex = i * 10 + j;
+                }
+            }
+        }
+
+        return minIndex;
+    }}
+
