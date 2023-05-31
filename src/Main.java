@@ -12,10 +12,6 @@ public class Main {
         int dalijasiBeLiekanos = skaiciuotiDalijasiBeLiekanos(24);
         System.out.println("Skaičius 24 dalijasi be liekanos su " + dalijasiBeLiekanos + " sveikais skaičiais.");
         System.out.println("_________________4_______________________________");
-        //   int[] skaiciai = generuotiAtsitiktiniusSkaicius(100, 33, 77);
-        //    System.out.println("Pradinis masyvas3: " + Arrays.toString(skaiciai));
-        //    rikiuotiPagalDalijasiBeLiekanosKieki(skaiciai);
-        //    System.out.println("Surūšiuotas masyvas3 pagal daliklių be liekanos kiekį: " + Arrays.toString(skaiciai));
         System.out.println("_________________5_______________________________");
         int[] masyvas = new int[100];
         Random random = new Random();
@@ -34,7 +30,6 @@ public class Main {
         List<List<Integer>> result = generateArrays();
         System.out.println(result);
         System.out.println("_________________7_______________________________");
-        List<List<Integer>> arrays = generateArrays1();
         int sum = calculateSum(result);
         System.out.println(sum);
         System.out.println("_________________8_______________________________");
@@ -104,7 +99,7 @@ public class Main {
             }
             sb.append("\n");
         }
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 
     public static int skaiciuotiDalijasiBeLiekanos(int skaicius) {
@@ -132,34 +127,7 @@ public class Main {
         return true;
     }
 
-    public static int[][] generateArray(int rows, int cols) {
-        int[][] array = new int[rows][cols];
-        Random random = new Random();
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                array[i][j] = random.nextInt(100) + 1;
-            }
-        }
-        return array;
-    }
-
-
-
-    public static double calculatePrimeAverage(int[][] array) {
-        int count = 0;
-        int sum = 0;
-
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[i].length; j++) {
-                if (isPrime(array[i][j])) {
-                    count++;
-                    sum += array[i][j];
-                }
-            }
-        }
-        return (double) sum / count;
-    }
 
     public static boolean isPrime(int number) {
         if (number < 2) {
@@ -205,20 +173,6 @@ public class Main {
         }
     }
 
-
-    //-----------------------------------------------------------------------------------------------------
-    public static List<List<Integer>> generateArrays1() {
-        Random random = new Random();
-        int numIterations = random.nextInt(21) + 10;
-        List<List<Integer>> arrays = new ArrayList<>();
-
-        for (int i = 0; i < numIterations; i++) {
-            List<Integer> array = generateArray(random);
-            arrays.add(array);
-        }
-
-        return arrays;
-    }
 
     public static List<Integer> generateArray1(Random random) {
         int length = random.nextInt(11) + 10;
@@ -285,10 +239,10 @@ public class Main {
         int sum = 0;
         int count = 0;
 
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[i].length; j++) {
-                if (isPrime23(array[i][j])) {
-                    sum += array[i][j];
+        for (int[] ints : array) {
+            for (int anInt : ints) {
+                if (isPrime23(anInt)) {
+                    sum += anInt;
                     count++;
                 }
             }
