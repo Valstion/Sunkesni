@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,15 +13,28 @@ public class Main {
         int dalijasiBeLiekanos = skaiciuotiDalijasiBeLiekanos(24);
         System.out.println("Skaičius 24 dalijasi be liekanos su " + dalijasiBeLiekanos + " sveikais skaičiais.");
         System.out.println("_________________4_______________________________");
-        System.out.println("_________________5_______________________________");
         int[] masyvas = new int[100];
+        // Generuojame atsitiktinius skaičius nuo 33 iki 77
         Random random = new Random();
         for (int i = 0; i < masyvas.length; i++) {
-            masyvas[i] = random.nextInt(777 - 333 + 1) + 333;
+            masyvas[i] = random.nextInt(45) + 33;
+        }
+        // Išrūšiuojame masyvą pagal daliklių be liekanos kiekį mažėjimo tvarka
+      //  Arrays.sort(masyvas);
+
+        // Spausdiname išrūšiuotą masyvą
+        System.out.println(Arrays.toString(masyvas));
+
+
+        System.out.println("_________________5_______________________________");
+        int[] masyvas12 = new int[100];
+        Random random12 = new Random();
+        for (int i = 0; i < masyvas12.length; i++) {
+            masyvas12[i] = random12.nextInt(777 - 333 + 1) + 333;
         }
         // Skaičiuojame pirminių skaičių kiekį
         int pirminiai = 0;
-        for (int sk : masyvas) {
+        for (int sk : masyvas12) {
             if (arPirminis(sk)) {
                 pirminiai++;
             }
@@ -72,7 +86,7 @@ public class Main {
     }
 
     public static String generuotiAtsitiktiniStringa(int ilgis) {
-        String leidziamosRaidzesSkaitmenys = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        String leidziamosRaidzesSkaitmenys = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890123456789";
         Random random = new Random();
         StringBuilder sb = new StringBuilder(ilgis);
         for (int i = 0; i < ilgis; i++) {
@@ -113,8 +127,6 @@ public class Main {
     }
 
 
-
-
     public static boolean arPirminis(int sk) {
         if (sk < 2) {
             return false;
@@ -128,7 +140,6 @@ public class Main {
     }
 
 
-
     public static boolean isPrime(int number) {
         if (number < 2) {
             return false;
@@ -140,7 +151,6 @@ public class Main {
         }
         return true;
     }
-
 
 
     public static List<List<Integer>> generateArrays() {
@@ -198,7 +208,7 @@ public class Main {
     public static int calculateSum(List<List<Integer>> arrays) {
         int sum = 0;
 
-        for (List<Integer> arr:arrays   ){
+        for (List<Integer> arr : arrays) {
             for (Integer element : arr) {
                 sum += element;
             }
@@ -265,5 +275,16 @@ public class Main {
         }
 
         return minIndex;
-    }}
+    }
 
+    public static int getDalikliaiBeLiekanos(int skaicius) {
+        int dalikliaiBeLiekanos = 0;
+        for (int i = 1; i <= skaicius; i++) {
+            if (skaicius % i == 0) {
+                dalikliaiBeLiekanos++;
+            }
+        }
+        return dalikliaiBeLiekanos;
+    }
+
+}
